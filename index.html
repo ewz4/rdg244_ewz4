@@ -3,7 +3,7 @@
 
 		<meta charset="utf-8">
 
-		<title>Fuzzy Fruit Picker</title>
+		<title>Soundweaver</title>
 
 		<meta name="HandheldFriendly" content="True">
 		<meta name="MobileOptimized" content="1440"> 
@@ -42,13 +42,12 @@
             <hr id="intro">
             <div class="block introdction">
                 <h2>Project Introduction</h2>
-                <p>
-                    The intertwining of a human’s senses is a beautiful art. Film, cinema, and theater mix sight and sound in ways that affect how we feel emotionally in a significant way. The music we hear during a scene drastically affects the way we feel about the scene, changing the same scene from tragedy to comedy depending on the difference in sound. This connection between sight and sound was shown beautifully in the TV show Futurama. In the show, there is an instrument known as the Holophoner. As the instrument is played, the musician’s thoughts are displayed via a hologram from the instrument, creating different scenes. In the episode "The Devil's Hands Are Idle Playthings," Fry (the main character) creates an opera using the instrument, with the scenes being portrayed through his playing of the Holophoner. <br>
-                </p>
+                <p>The intertwining of a human’s senses is a beautiful art. Film, cinema, and theater mix sight and sound in ways that affect how we feel emotionally in a significant way. The music we hear during a scene drastically affects the way we feel about the scene, changing the same scene from tragedy to comedy depending on the difference in sound. This connection between sight and sound was shown beautifully in the TV show Futurama. In the show, there is an instrument known as the Holophoner. As the instrument is played, the musician’s thoughts are displayed via a hologram from the instrument, creating different scenes. In the episode "The Devil's Hands Are Idle Playthings," Fry (the main character) creates an opera using the instrument, with the scenes being portrayed through his playing of the Holophoner.</p>
                 <img src="pics/fuzzy.png" alt="figure 1">
                 <h4>Figure 1: Fry playing a Holophoner from the TV show Futurama</h4>
                 <img src="pics/fuzzy.png" alt="figure 2">
                 <h4>Figure 2: When music is played from the Holophoner properly, the person’s thoughts are portrayed using a hologram.</h4>
+                
                 <p>This project aims to create an instrument similar to the Holophoner, named the Soundweaver. When music is played through a microphone, real-time color imagery will be produced onto a VGA screen based on the frequencies heard by the microphone. Essentially, the goal was to display abstract visuals that changed based on the music played.</p>
                 <p>There are two main parts to the design: the music analysis and the animation. The music analysis was done using a Fast Fourier Transform frequency analysis to calculate the frequencies and amplitudes of the sounds heard through the microphone. Then the frequencies were compared to the previous frequencies to determine the current mood of the music, and then change the colors on the screen. The animation was completed using an algorithm imitating a starling murmuration designed in Lab 2. Each boid had a state that involved its current position, velocity, and color. The VGA display was then broken up into a grid of tiles, and the color of each tile depends on the colors of the boids inside the tile.</p>
             </div>
@@ -123,7 +122,7 @@
 
                 <img src="pics/assembled.jpg" alt="figure 12-1">
                 <img src="pics/assembled.jpg" alt="figure 12-2">
-                <h4>Figure 12: Pictrues of our hardware setup.</h4>
+                <h4>Figure 12: Pictures of our hardware setup.</h4>
             </div>
 
             <hr id="results">
