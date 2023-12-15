@@ -35,7 +35,7 @@
 			<div class="header">
                 <h1>Soundweaver</h1>
                 <h3>Rafael Gottlieb (rdg244), Eric Zhang (ewz4)</h3>
-                <iframe width="640" height="360" src="https://www.youtube.com/watch?v=427vY8pIdWY" allowfullscreen></iframe>
+                <iframe width="640" height="360" src="https://www.youtube.com/embed/427vY8pIdWY?si=NqCwddt4nllpKmTT" allowfullscreen></iframe>
                 <h4>Demonstration Video</h4>
             </div>
 
@@ -76,11 +76,11 @@
                 <p>Once the program determines the intervals, a predator boid would be first triggered to represent each interval. In a separate core running the boids algorithm, the predators that are turned on will both affect the color of the surrounding boids and chase them away, creating a splash effect. The second thing the algorithm does is calculate an overall mood. This is an average color based on the past twenty highest detected frequencies.</p>
 
                 <h3>Animation</h3>
-                <p>The animation on the VGA screen implements a modified version of the Boids algorithm under the hood. Figure 5 below shows an early test version of the program. The music analysis done on a separate core can turn on up to three predators and assign each an affecting color to spread to the boids that are within their chase range. In this version, the predators are always invisible. The predators will move throughout the screen space, and if there are no new notes, the boids will ignore them. However, once the program detects new notes, the predators will turn on, and the boids that are within the predatory range of the predators will turn away. These boids will also have their color set to the average of the affecting colors of the predators that are chasing them. Boids that are not in the predatory range of any predators will have their color shift towards the overall mood by 15 degrees.</p>
+                <p>The animation on the VGA screen implements a modified version of the Boids algorithm under the hood. Figure 7 below shows an early test version of the program. The music analysis done on a separate core can turn on up to three predators and assign each an affecting color to spread to the boids that are within their chase range. In this version, the predators are always invisible. The predators will move throughout the screen space, and if there are no new notes, the boids will ignore them. However, once the program detects new notes, the predators will turn on, and the boids that are within the predatory range of the predators will turn away. These boids will also have their color set to the average of the affecting colors of the predators that are chasing them. Boids that are not in the predatory range of any predators will have their color shift towards the overall mood by 15 degrees.</p>
                 <img src="pics/env_final.jpeg" alt="figure 7">
                 <h4>Figure 7: Early boids implementation.</h4>
 
-                <p>To complete the animation, the screen is split into square tiles, as shown in the Figure blah. After the Boids algorithm updates the position of a boid, its position gets mapped to the tile on the screen that contains it. When this happens, the boid’s color values gets added to the tile’s color accumulator value, and the tile’s boid counter increments. After all the boids have their effects on the tiles updated, each tile will calculate its color. Tiles containing no boids will have their color set to the overall mood color. Otherwise, the tile will have the average color of all of its contained boids (or the color accumulator divided by the boid counter). Predators do not directly affect tile color, but instead affect the boids which do affect tile color.</p>
+                <p>To complete the animation, the screen is split into square tiles, as shown in the Figure 8. After the Boids algorithm updates the position of a boid, its position gets mapped to the tile on the screen that contains it. When this happens, the boid’s color values gets added to the tile’s color accumulator value, and the tile’s boid counter increments. After all the boids have their effects on the tiles updated, each tile will calculate its color. Tiles containing no boids will have their color set to the overall mood color. Otherwise, the tile will have the average color of all of its contained boids (or the color accumulator divided by the boid counter). Predators do not directly affect tile color, but instead affect the boids which do affect tile color.</p>
                 <img src="pics/cam_attach.jpeg" alt="figure 8">
                 <h4>Figure 8: Tiled animation.</h4>
             </div>
@@ -89,7 +89,7 @@
             <div class="block design">
                 <h3>Program Design</h3>
         
-                <p>The program’s design involved two main sections: the animation and the music analysis. To avoid timing issues between sampling the ADC and animating to the VGA display, the animation thread was done on core 0 and the FFT analysis thread was done on core 1. Core 1 also had a serial thread that provided a user interface on the serial monitor and listen for user commands to change parameters. This was used to tune parameters to adjust our animation until we were satisfied. All threads used the Protothreads architecture provided by the course. Figure illustrates the breakdown of the high level steps into program threads.</p>
+                <p>The program’s design involved two main sections: the animation and the music analysis. To avoid timing issues between sampling the ADC and animating to the VGA display, the animation thread was done on core 0 and the FFT analysis thread was done on core 1. Core 1 also had a serial thread that provided a user interface on the serial monitor and listen for user commands to change parameters. This was used to tune parameters to adjust our animation until we were satisfied. All threads used the Protothreads architecture provided by the course. Figure 9 illustrates the breakdown of the high level steps into program threads.</p>
                 
                 <img src="pics/fuzzy.png" alt="figure 9">
                 <h4>Figure 9: Program threads.</h4>
@@ -134,16 +134,16 @@
                 <img src="pics/assembled.jpg" alt="figure 13-2">
                 <h4>Figure 13: Various demo videos.</h4>
 
-                <p>We found slow piano music worked the best, since the frequencies of the music are very distinct, and it was clear when notes are being played versus not.</p>
-                <p>One major point of improvement would be getting the device to better detect new notes. Right now, if a note is held or if the music is really fast, there is a continuous "gap" in the boid flock due to the predator always being on. Some ideas to implement this improvement include speeding up the the sample rate and having a more relative amplitude comparator for detecting new notes rather than a hardcoded threshold. A relative amplitude comparator would compare the current peak amplitudes to the previous amplitudes, which would make the device more robust to different sound output devices and song styles (like loud versus soft).</p>
-                <p>In our development process, we developed the music analysis and music animation separately, verified they were working, then combined both features. To debug, we made use of the Serial monitor print statements to investigate the state of the program at various points and also the command interface to change parameters to attempt to trigger specific bugs.</p>
-                <p>One interesting bug we found was failing to map boid positions to the tiles, which was causing the program to freeze. This was the result of not guarding the boid pixel positions to stay within the bounds of the screen. Another interesting bug was using the 8-bit color VGA driver with our code. The bound checker in the driver allowed drawing to the last 5 horizontal pixels of the screen, but the bits for those pixels do not reset which led to some weird visualizations. Correcting the driver bound checks fixed this issue.</p>
+                <p>We found that slow piano music worked the best, since the frequencies of the music are very distinct, and it was clear when notes are being played versus not.</p>
+                <p>One major point of improvement would be getting the device to better detect new notes. Right now, if a note is held or if the music is really fast, there is a continuous "gap" in the boids flock due to the predator always being on. Some ideas to implement this improvement include speeding up the the sample rate and having a more relative amplitude comparator for detecting new notes rather than a hardcoded threshold. A relative amplitude comparator would compare the current peak amplitudes to the previous amplitudes, which would make the device more robust to different sound output devices and song styles (like loud versus soft).</p>
+                <p>In our development process, we developed the music analysis and music animation separately, verified they were both working, then combined the two features. To debug, we made use of serial monitor print statements to investigate the state of the program at various points and also the serial command interface to change parameters to attempt to trigger specific bugs.</p>
+                <p>One interesting bug we found was failing to map boid positions to the tiles, which was causing the program to freeze. This was the result of not guarding the boid pixel positions to stay within the bounds of the screen. Another interesting bug was using the 8-bit color VGA driver with our code. The bound checker in the driver allowed drawing to the last 5 horizontal pixels of the screen, but the bits for those pixels do not reset which led to some weird visualizations. Correcting the driver bound checks for drawing fixed this issue.</p>
             </div>
 
             <hr id="conc">
             <div class="block conclusion">
                 <h2>Conclusion</h2>
-                <p>The team accomplished its goal to display abstract visuals that would change based on the music played. Using algorithms written by Cornell Professors’ Hunter Adams and Bruce Land, the team implemented 8-bit color and FFT analysis to accurately determine intervals and display a wide range of colors based on those intervals heard by the device. However, the resulting device did not meet expectations, and improvements can be made to better improve the design. One design improvement would be to better detect note changes. In the current code, the splash caused by a triggered predator does not change based on amplitude. Having the size of the splash be a function of the amplitude of the note can lead to clearer splashes and a better visualization of the music. An additional design improvement would be to achieve a smoother blend of colors. This would involve a finer resolution, which would involve using a microcontroller with more memory. An easier solution would be to connect neighboring colors, meaning that if a tile did not have a boid inside of it, the color would be the average of the surrounding tiles. On the hardware side, a possible improvement would be to convert the design into an instrument that uses a keyboard to control the notes rather than a microphone. This would prevent outside noise and disturbances from a microphone and give a direct connection to the microcontroller. These improvements will be pursued in future work with this project.</p>
+                <p>The team accomplished its goal to display abstract visuals that would change based on the music played. Using algorithms written by Cornell Professors Hunter Adams and Bruce Land, the team implemented 8-bit color and FFT analysis to accurately determine intervals and display a wide range of colors based on those intervals heard by the device. However, the resulting device did not meet expectations, and improvements can be made to better improve the design. One design improvement would be to better detect note changes. In the current code, the splash caused by a triggered predator does not change based on amplitude. Having the size of the splash be a function of the amplitude of the note can lead to clearer splashes and a better visualization of the music. An additional design improvement would be to achieve a smoother blend of colors. This would involve a finer resolution, which would involve using a microcontroller with more memory. An easier solution would be to connect neighboring colors, meaning that if a tile did not have a boid inside of it, the color would be the average of the surrounding tiles. On the hardware side, a possible improvement would be to convert the design into an instrument that uses a keyboard to control the notes rather than a microphone. This would prevent outside noise and disturbances from a microphone and give a direct connection to the microcontroller. These improvements will be pursued in future work with this project.</p>
 	            <p>Though these changes would increase the appeal of the visuals outputted by the device, the current design is a great step in connecting sight and sound. The Soundweaver connects what we hear to what we see, connecting our senses in harmony together. As the project progresses outside of ECE 5760, hopefully the Soundweaver will become advanced enough to read our thoughts and turn fiction into reality.</p>
             </div>
 
@@ -158,7 +158,7 @@
             </div>
 
             <hr id="appendix">
-            <div class="block references">
+            <div class="block appendix">
                 <h2>Appendix</h2>
                 <h3>Appendix A</h3>
                 <p>The group approves this report for inclusion on the course website.</p>
@@ -168,7 +168,6 @@
                 <p> 
                     <script src="https://gist.github.com/ewz4/e0b91dfde3e6512348564bf148dfa4cc.js"></script>
                 </p>
-
 
             </div>
             
