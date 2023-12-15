@@ -35,7 +35,7 @@
 			<div class="header">
                 <h1>Soundweaver</h1>
                 <h3>Rafael Gottlieb (rdg244), Eric Zhang (ewz4)</h3>
-                <iframe width="640" height="360" src="https://www.youtube.com/embed?v=et91Gea6CPk" allowfullscreen></iframe>
+                <iframe width="640" height="360" src="https://www.youtube.com/watch?v=427vY8pIdWY" allowfullscreen></iframe>
                 <h4>Demonstration Video</h4>
             </div>
 
@@ -137,30 +137,38 @@
                 <p>We found slow piano music worked the best, since the frequencies of the music are very distinct, and it was clear when notes are being played versus not.</p>
                 <p>One major point of improvement would be getting the device to better detect new notes. Right now, if a note is held or if the music is really fast, there is a continuous "gap" in the boid flock due to the predator always being on. Some ideas to implement this improvement include speeding up the the sample rate and having a more relative amplitude comparator for detecting new notes rather than a hardcoded threshold. A relative amplitude comparator would compare the current peak amplitudes to the previous amplitudes, which would make the device more robust to different sound output devices and song styles (like loud versus soft).</p>
                 <p>In our development process, we developed the music analysis and music animation separately, verified they were working, then combined both features. To debug, we made use of the Serial monitor print statements to investigate the state of the program at various points and also the command interface to change parameters to attempt to trigger specific bugs.</p>
-                <p>One interesting bug we found was failing to map boid positions to the tiles, which was causing the program to freeze. This was the result of not guarding the boid pixel positions to stay within the bounds of the screen. Another interesting bug was using the 8-bit color VGA driver with our code. </p>
+                <p>One interesting bug we found was failing to map boid positions to the tiles, which was causing the program to freeze. This was the result of not guarding the boid pixel positions to stay within the bounds of the screen. Another interesting bug was using the 8-bit color VGA driver with our code. The bound checker in the driver allowed drawing to the last 5 horizontal pixels of the screen, but the bits for those pixels do not reset which led to some weird visualizations. Correcting the driver bound checks fixed this issue.</p>
             </div>
 
             <hr id="conc">
             <div class="block conclusion">
                 <h2>Conclusion</h2>
-                <p>
-                    Overall, our project was a success. Despite the simplifications that we made, this project taught us a lot about various topics within robotics as well as Embedded OS systems. We gained more experience with using OpenCV, worked extensively with servos, became familiar with the pigpio library, and learned about inverse kinematics. Although this project was challenging, it was the perfect capstone to our experience in this course. 
-                </p>
+                <p>The team accomplished its goal to display abstract visuals that would change based on the music played. Using algorithms written by Cornell Professors’ Hunter Adams and Bruce Land, the team implemented 8-bit color and FFT analysis to accurately determine intervals and display a wide range of colors based on those intervals heard by the device. However, the resulting device did not meet expectations, and improvements can be made to better improve the design. One design improvement would be to better detect note changes. In the current code, the splash caused by a triggered predator does not change based on amplitude. Having the size of the splash be a function of the amplitude of the note can lead to clearer splashes and a better visualization of the music. An additional design improvement would be to achieve a smoother blend of colors. This would involve a finer resolution, which would involve using a microcontroller with more memory. An easier solution would be to connect neighboring colors, meaning that if a tile did not have a boid inside of it, the color would be the average of the surrounding tiles. On the hardware side, a possible improvement would be to convert the design into an instrument that uses a keyboard to control the notes rather than a microphone. This would prevent outside noise and disturbances from a microphone and give a direct connection to the microcontroller. These improvements will be pursued in future work with this project.</p>
+	            <p>Though these changes would increase the appeal of the visuals outputted by the device, the current design is a great step in connecting sight and sound. The Soundweaver connects what we hear to what we see, connecting our senses in harmony together. As the project progresses outside of ECE 5760, hopefully the Soundweaver will become advanced enough to read our thoughts and turn fiction into reality.</p>
             </div>
 
-            <hr id="fw">
-            <div class="block future">
-                <h2>Future Work</h2>
-                <p>
-                    If we had more time on the project, we would have integrated the camera with the arm completely so that it would be able to sort the balls from any position within the visible range of the camera. The other challenge that we faced was smoothening the moment of the arm and the next steps for that would be to implement PID control.     
+            <hr id="appendix">
+            <div class="block references">
+                <h2>Appendix</h2>
+                <h3>Appendix A</h3>
+                <p>The group approves this report for inclusion on the course website.</p>
+                <p>The group approves the video for inclusion on the course Youtube channel.</p>
+
+                <h3>Appendix B</h3>
+                <p
+                    <script src=https://gist.github.com/ewz4/e0b91dfde3e6512348564bf148dfa4cc.js></script>
                 </p>
+
+
             </div>
 
             <hr id="ref">
             <div class="block references">
                 <h2>References</h2>
                 <ul class="ref-links">
-                    <li><a href="https://www.instructables.com/MeArm-Robot-Arm-Your-Robot-V10/" target="_blank">MeArm Robot Arm Instructable</a></li>
+                    <li><a href="https://vanhunteradams.com/FFT/FFT.html" target="_blank">Hunter Adams’ Cooley-Tukey FFT program</a></li>
+                    <li><a href="https://vanhunteradams.com/FFT/FFT.html" target="_blank">Bruce Land's 8-bit color VGA driver</a></li>
+                    <li>Mattie Lee (mll264), Eshita Sangani (ens47), and Janeth Manyalla (jim59) for their amazing website template.
                 </ul>
             </div>
             
